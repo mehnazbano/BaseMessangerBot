@@ -1,0 +1,40 @@
+h1 
+ = "Edit Profile"
+= form_for User.new do |f|
+
+  = @user.error_messages
+  p
+    = f.label :name, "First Name"
+    = f.text_field :first_name
+
+  - f.fields_for :expertises do |e|
+    p
+      = e.label :expertise_area_id, "Appointment Date"
+      = e.text_field :expertise_area_id
+
+    - e.fields_for :expertise_area do |d|
+      p
+        = d.label :name, "Expertise Name"
+        = d.text_field :name
+
+  p
+    = f.label :Expertise
+    = f.text_field :title
+ 
+  p
+    = f.label :description
+    = f.text_area :description , onclick: "document.getElementById('testing').innerHTML = Date()"
+  p id='testing'
+  p 
+    = f.label :tags
+    = f.text_field :tags, 'data-tokeninput' => { collection: names }.to_json
+  p 
+    = f.label :location
+    = f.text_field :location, class: "js_location_tokeninput", id: "locationTokenInput"
+  p 
+    = f.label :type 
+    = f.select(:type, [['General',1],['Report', 2],['Article', 3]], {}, { :class => 'my_style_class' })
+  p
+    = f.submit 'Create'
+  p 
+    = link_to 'Back', users_path

@@ -1,0 +1,71 @@
+doctype html
+html
+  head
+    meta content=("text/html; charset=UTF-8") http-equiv="Content-Type" /
+    title MehnazApp
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+    link rel="stylesheet" href="//cdn.jsdelivr.net/jquery.sidr/2.2.1/stylesheets/jquery.sidr.dark.min.css"
+    script src="//cdn.jsdelivr.net/jquery/2.2.0/jquery.min.js"
+    script src="//cdn.jsdelivr.net/jquery.sidr/2.2.1/jquery.sidr.min.js"
+    script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"
+    script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"
+  body
+    .container
+      .top_strip
+      .container_body
+        - if user_signed_in?
+          .header_navigation
+            #content_div ng-app="myApp" ng-controller="myCtrl"
+              .content
+                #simple-menu
+                  = link_to "#{image_tag('right_arrow.png', 'ng-src'=>'{{followBtnImgUrl}}', 'ng-click' => 'swapIcons(arrow)', class: 'nav_icon')}".html_safe, '#sidr', class: 'toggle_bar'
+              #sidr
+                ul
+                  li.info_section
+                    = image_tag('user_icon.png', height: '30px', width: '30px', class: 'margin_right icon_hover nav_icon')
+                    br
+                    = current_user.email
+                    br
+                  li
+                    = link_to "Abouts Us", "#!about_us"
+                  li
+                    = link_to "Feedback", "#!feedback"
+                  li
+                    = link_to "Settings", "#!settings"
+                  li
+                    = link_to "Sign out", destroy_user_session_path
+
+              .light_container
+                = link_to "New", "#"
+                = link_to "Abouts Us", "#!about_us"
+                = link_to "Feedback", "#!feedback"
+              .div.ng-view
+            .body_layout
+              = image_tag('loader-small.gif', :class => 'hidden centerAlign ajaxLoaderSingle nav_icon', :id => 'loading_image')
+              .header_div
+                .header_left
+                  = image_tag('home.png', height: '30px', width: '30px', class: 'margin_right icon_hover nav_icon')
+                  span.margin_right
+                    = "|"
+                  span.margin_right
+                    span.margin_right = "Welcome"
+                    = image_tag('user_icon.png', height: '30px', width: '30px', class: 'margin_right icon_hover nav_icon')
+                    = current_user.email
+                .header_right
+                  = image_tag('contact.png', height: '30px', width: '30px', class: 'margin_right icon_hover nav_icon')
+                  = link_to(image_tag('logout.png', height: '30px', width: '30px', class: 'margin_right icon_hover nav_icon'), destroy_user_session_path)
+
+        - else
+          #user_nav
+            .sign_up
+              /.logo
+                /= image_tag('feed_logo.png', height: '100px', class: 'feed_logo')
+              .content
+                h1
+                  = "Fact Buzz"
+                /.register_links.btn
+                  /= link_to "SIGN UP", new_user_registration_path, class: 'button_secondary sign_up'
+                  /= link_to "SIGN IN", new_user_session_path, class: 'button_primary sign_in'
+        = yield

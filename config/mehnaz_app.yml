@@ -1,0 +1,23 @@
+## Environment settings
+defaults: &defaults
+  api_version: v1
+  host: localhost
+  port: 80
+  protocol: http
+  relative_url_root: /
+
+  asset_host:
+    enabled: false
+    url: http://localhost
+
+  authentication:
+    session_expiration_time: 86_400
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults

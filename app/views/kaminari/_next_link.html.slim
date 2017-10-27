@@ -1,0 +1,14 @@
+/  "Next" with link
+  - available local variables
+    | url:           url to the next page
+    | current_page:  the page number of currently displayed page
+    | per_page:      number of items to fetch per page
+    | remote:        data-remote
+- all_links = false unless defined?(all_links)
+- unless current_page.last?
+  li.next
+    - if all_links
+      = link_to url, :class => 'next gallary-pagination-links', :rel => 'next', :remote => remote, "aria-label" => _('views.pagination.goto_next') do
+        span aria-hidden="true" == _('views.pagination.next')
+    - else
+      = link_to _('views.pagination.load_more'), url, :class => 'next gallary-pagination-links', :rel => 'next', :remote => remote

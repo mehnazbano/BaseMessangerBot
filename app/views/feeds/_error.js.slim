@@ -1,0 +1,3 @@
+- content = escape_javascript(render "shared/error_messages", :target => @feed)
+| $("#feed_error_messages").removeClass("alert").html("#{content}");
+| $("#feed_error_messages").fadeIn(200);

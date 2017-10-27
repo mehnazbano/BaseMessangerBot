@@ -1,0 +1,2 @@
+module ContentStatsHelper
+end

@@ -1,0 +1,43 @@
+- if current_user.present?
+  .light_container
+    = link_to 'Create Feed', '#', class: 'js_create_feed'
+    #feed_error_messages1
+    div.js_feed_form style="display: none;"
+      = form_for Feed.new, :html => { :multipart => true }, remote: true , :method => 'post' do |f|
+        #feed_error_messages
+        div
+          = f.label :description
+          = f.text_area :description
+          br
+          = f.label :data
+          = f.file_field :data
+          br
+          = f.submit
+    br
+    = 'All Feeds'
+    ul.unstyled.vList.timeline-vList.interactive_container data-href='#{my_timeline_users_path}' auto-load="true"
+
+
+
+
+
+  /= link_to "Create a Blogpost", new_blogpost_path
+  /= "      "
+  / = link_to "Show all Blogpost", blogposts_path
+  /= "      "
+  /= link_to "Create a Microblog", new_microblog_path
+  / = "      "
+  /= link_to "Show all Blogpost", microblogs_path
+
+  / h2
+  /  = "div through Javascript"
+  /  br
+  /  div#editBlogpost
+  /    h5 = "Edit Blogpost"
+  /  br
+  /  = link_to "Delete Blogpost", blogpost_delete_content_path(Blogpost.first), remote: true , method: :delete
+  /  br
+  /  = link_to "Edit Microblog", 'javascript:void(0);', class: 'editMicroblogForm'
+  /  br
+  /  = link_to "Show all Blogpost", microblogs_path
+  /  div#panelArea

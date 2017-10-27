@@ -1,0 +1,11 @@
+/  "Previous" with link
+  - available local variables
+    | url:           url to the previous page
+    | current_page:  the page number of currently displayed page
+    | per_page:      number of items to fetch per page
+    | remote:        data-remote
+- unless current_page.first?
+
+  li.prev
+    = link_to url, :class => 'prev gallary-pagination-links', :rel => 'prev', :remote => remote, "aria-label" => _('views.pagination.goto_previous') do
+      span aria-hidden="true" == _('views.pagination.previous')

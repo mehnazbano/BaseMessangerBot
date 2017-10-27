@@ -1,0 +1,14 @@
+/  "Next" with link
+  - available local variables
+    | url:           url to the next page
+    | current_page:  the page number of currently displayed page
+    | per_page:      number of items to fetch per page
+    | remote:        data-remote
+- all_links = false unless defined?(all_links)
+- data_type = :js unless defined?(data_type)
+- unless current_page.last?
+  span.next
+    - if all_links
+      = link_to _('views.pagination.next'), url, :class => 'next', :rel => 'next', :remote => remote
+    - else
+      = link_to _('views.pagination.load_more'), url, :class => 'next btn btn-large', :rel => 'next', :remote => remote, "data-type" => data_type

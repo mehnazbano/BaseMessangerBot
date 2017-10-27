@@ -1,0 +1,20 @@
+H1 = "Create a microblog"
+= form_for @microblog do |f|
+  = f.label :title
+  = f.text_area :title
+  br
+  = f.label :description
+  = f.text_area :description
+  br
+  = f.label :community_id 
+  = f.select(:community_id, [['Select Community',''],['Legal',1],['Ethics', 2],['Social', 3]], {}, { :class => 'microblog_community_id' })
+  br
+  .microblog_type
+    = f.label :type 
+    = f.select(:type, [['Select Type',''],['General',1],['Report', 2],['Article', 3]], {}, { :class => 'select_dropdown' })
+  br
+  .microblog_status
+    = f.label :status 
+    = f.select(:status, [['Select Status',''],['Publish',1],['Hold', 2],['Draft', 3]], {}, { :class => 'select_dropdown' })
+  br
+  = f.submit

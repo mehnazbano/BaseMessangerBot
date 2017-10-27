@@ -1,0 +1,8 @@
+- if @feeds.present?
+  = @page
+  - @feeds.each do |feed|
+    .div style="color: blue;"
+      h3 = feed.description
+  = paginate(@feeds, remote: true, :data_type => :json)
+- else
+  = "Feed are yet to be created"

@@ -1,0 +1,23 @@
+/  The container tag
+  - available local variables
+    | current_page:  the page number of currently displayed page
+    | num_pages:     total number of pages
+    | per_page:      number of items to fetch per page
+    | remote:        data-remote
+    | paginator:     the paginator that renders the pagination tags inside
+    | enable_prev:   the boolean for having prev link
+    | all_links:     the boolean for having all link
+- enable_prev = false unless defined?(enable_prev)
+- all_links = false unless defined?(all_links)
+= paginator.render do
+  .js_loadmore.section.medium-section.bordered-section.centerAlign
+    -if enable_prev
+      == (prev_page_tag).to_s
+      == (next_page_tag).to_s
+    -elsif all_links
+      == (prev_page_tag)
+      - each_page do |page|
+        == page_tag(page)
+      == (next_page_tag)
+    -else
+      == (next_page_tag).to_s
