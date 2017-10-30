@@ -15,7 +15,9 @@ module Messenger
       end
 
       def receive
+        p 'initial paramsss-----'
         Messenger::Bot::Receiver.share(params)
+        p params["entry"]
         params["entry"].each do |entry|
           messaging_events = entry["messaging"]
           messaging_events.each_with_index do |event, key|

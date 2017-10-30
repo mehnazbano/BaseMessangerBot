@@ -7,7 +7,7 @@ module Messenger
 
       def reply(data)
         data = init_data.merge({ message: data })
-        Messenger::Bot::Request.post("https://graph.facebook.com/v2.6/me/messages?access_token=#{Messenger::Bot::Config.access_token}", data)
+        Messenger::Bot::Request.post("https://graph.facebook.com/v2.6/me/messages?access_token=#{Messenger::Bot::Config.access_token}&statusCode=200", data)
       end
 
       def get_profile(fields=nil)
