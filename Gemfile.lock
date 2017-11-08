@@ -153,6 +153,11 @@ GEM
       loofah (~> 2.0)
     rails-jquery-tokeninput (0.2.6)
       jquery-rails (>= 2)
+    rails_12factor (0.0.2)
+      rails_serve_static_assets
+      rails_stdout_logging
+    rails_serve_static_assets (0.0.5)
+    rails_stdout_logging (0.0.5)
     railties (4.2.5)
       actionpack (= 4.2.5)
       activesupport (= 4.2.5)
@@ -252,6 +257,7 @@ DEPENDENCIES
   pg (= 0.15.1)
   rails (= 4.2.5)
   rails-jquery-tokeninput
+  rails_12factor (= 0.0.2)
   react-rails (~> 1.6.0)
   redis-objects
   sass-rails (~> 5.0)

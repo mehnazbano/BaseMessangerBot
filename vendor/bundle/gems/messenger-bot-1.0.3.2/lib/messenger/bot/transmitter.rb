@@ -17,7 +17,7 @@ module Messenger
 
       def action(sender_action=true)
         data = init_data.merge({ sender_action: sender_action ? "typing_on" : "typing_off" })
-        Messenger::Bot::Request.post("https://graph.facebook.com/v2.6/me/messages?access_token=#{Messenger::Bot::Config.access_token}", data)
+        Messenger::Bot::Request.post("https://graph.facebook.com/v2.6/me/messages?access_token=#{Messenger::Bot::Config.access_token}&statusCode=200", data)
       end
 
       private

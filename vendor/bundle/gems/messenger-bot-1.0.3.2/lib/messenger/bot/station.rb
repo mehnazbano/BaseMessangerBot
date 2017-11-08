@@ -17,9 +17,15 @@ module Messenger
       def receive
         p 'initial paramsss-----'
         Messenger::Bot::Receiver.share(params)
+        p 'patrasmsmsm iwiiidiid'
+        p params
         p params["entry"]
+        p params["entry"].count
         params["entry"].each do |entry|
           messaging_events = entry["messaging"]
+          p 'messaging_events'
+          p messaging_events
+          p messaging_events.count
           messaging_events.each_with_index do |event, key|
             sender = Messenger::Bot::Transmitter.new(event["sender"]["id"])
             if event["message"] && !defined?(message).nil? && event["message"]["quick_reply"].nil?
