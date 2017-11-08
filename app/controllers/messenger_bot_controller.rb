@@ -92,6 +92,8 @@ class MessengerBotController < ApplicationController
         case api_response['entities'].values.flatten.first['value'].downcase
         when 'ticket'
           response = select_ticket_category
+        else
+          "😃️ Got it. We'll keep trying to improve our services. 👷‍♀️"
         end
       when 'wit_severity'
         case api_response['entities'].values.flatten.first['value'].downcase
