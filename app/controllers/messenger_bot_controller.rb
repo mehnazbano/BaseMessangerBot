@@ -6,6 +6,7 @@ class MessengerBotController < ActionController::Base
   require 'httparty'
 
   def message(event, sender)
+    Rails.logger.error("welcome to message")
     @query_string = event['message']['text']
     query_string = @query_string.gsub(' ', '%20')
     session_id = event['sender']['id']

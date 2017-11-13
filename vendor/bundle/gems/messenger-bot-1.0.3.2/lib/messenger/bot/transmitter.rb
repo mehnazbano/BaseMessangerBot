@@ -6,6 +6,7 @@ module Messenger
       end
 
       def reply(data)
+        Rails.logger.error("replyyy")
         data = init_data.merge({ message: data })
         Messenger::Bot::Request.post("https://graph.facebook.com/v2.6/me/messages?access_token=#{Messenger::Bot::Config.access_token}&statusCode=200", data)
       end

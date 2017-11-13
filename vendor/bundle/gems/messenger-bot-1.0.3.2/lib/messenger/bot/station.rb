@@ -16,6 +16,7 @@ module Messenger
       end
 
       def receive
+        Rails.logger.error('Mehnaz appp receive start')
         p 'initial paramsss-----'
         Messenger::Bot::Receiver.share(params)
         p 'patrasmsmsm iwiiidiid'
@@ -30,26 +31,27 @@ module Messenger
           messaging_events.each_with_index do |event, key|
             sender = Messenger::Bot::Transmitter.new(event["sender"]["id"])
             if event["message"] && !defined?(message).nil? && event["message"]["quick_reply"].nil?
-              p "11111"
+              Rails.logger.error("11111")
               send(:message, event, sender)
             elsif (event["postback"] && !defined?(postback).nil?) || (event["message"] && event["message"]["quick_reply"].present?)
               if event["message"].present?
-                p '22222'
+                Rails.logger.error("22222")
                 event["postback"] = event["message"]["quick_reply"]
                 send(:postback, event, sender)
               else
-                p '33333'
+                Rails.logger.error("333333")
                 send(:postback, event, sender)
               end
             elsif event["delivery"] && !defined?(delivery).nil?
-              p '44444'
+              Rails.logger.error("444444")
               send(:delivery, event, sender)
             elsif event["optin"]
-              p '555555'
+              Rails.logger.error("555555")
               send(:optin, event, sender)
             end
           end
         end
+        Rails.logger.error('Mehnaz appp receive end')
         render body: "ok"
       end
 
