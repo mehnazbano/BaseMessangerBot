@@ -1,14 +1,14 @@
 ## Environment settings
 defaults: &defaults
   api_version: v1
-  host: localhost
+  host: https://facbot.herokuapp.com/
   port: 80
   protocol: http
   relative_url_root: /
 
   asset_host:
     enabled: false
-    url: http://localhost
+    url: https://facbot.herokuapp.com/
 
   authentication:
     session_expiration_time: 86_400
