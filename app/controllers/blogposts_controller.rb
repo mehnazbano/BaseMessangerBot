@@ -1,5 +1,5 @@
 class BlogpostsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:new, :create]
   def new
     @blogpost = Blogpost.new
   end

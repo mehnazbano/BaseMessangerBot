@@ -1,4 +1,4 @@
-class MessengerBotController < ApplicationController
+class MessengerBotController < ActionController::Base
   require 'open-uri'
   require 'nokogiri'
   require 'net/http'
