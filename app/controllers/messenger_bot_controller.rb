@@ -35,6 +35,10 @@ class MessengerBotController < ApplicationController
       message = { text: 'Please provide detailed ticket description'}
     when 'exit'
       message = { text: 'Bye 😊. It was nice talking to you, hope to see you again.'}
+    when 'play'
+      message = { text: 'Guess movie name - 🕷️🚶'}
+    else
+      message = { text:  'I am still under construction 🏗️'}
     end
     sender.reply(message)
   end
@@ -93,7 +97,7 @@ class MessengerBotController < ApplicationController
         when 'ticket'
           response = select_ticket_category
         else
-          "😃️ Got it. We'll keep trying to improve our services. 👷‍♀️"
+          "😃️ Got it. We'll keep trying to improve our services. 👷‍♀️ Thank you."
         end
       when 'wit_severity'
         case api_response['entities'].values.flatten.first['value'].downcase
@@ -163,7 +167,7 @@ class MessengerBotController < ApplicationController
               },
               {
                 type: "postback",
-                title: "No, thanks",
+                title: "No, thanks 😊",
                 payload: "exit",
               }
             ],
@@ -194,7 +198,7 @@ class MessengerBotController < ApplicationController
         },
         {
           content_type: "text",
-          title: "No thanks",
+          title: "No thanks 😊",
           payload: "exit"
         }
       ]
@@ -227,7 +231,7 @@ class MessengerBotController < ApplicationController
         },
         {
           content_type: "text",
-          title: "No thanks",
+          title: "No thanks 😊",
           payload: "exit"
         }
       ]
