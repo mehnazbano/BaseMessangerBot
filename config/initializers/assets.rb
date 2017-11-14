@@ -6,6 +6,7 @@ Rails.application.config.assets.precompile += %w( home.png )
 Rails.application.config.assets.precompile += %w( logout.png )
 Rails.application.config.assets.precompile += %w( contact.png )
 Rails.application.config.assets.precompile += %w( user_icon.png )
+Rails.application.config.assets.precompile += %w( fb_bot_analytics.js )
 
 # Add additional assets to the asset load path
 # Rails.application.config.assets.paths << Emoji.images_path

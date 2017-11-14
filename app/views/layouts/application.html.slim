@@ -68,4 +68,5 @@ html
                 /.register_links.btn
                   /= link_to "SIGN UP", new_user_registration_path, class: 'button_secondary sign_up'
                   /= link_to "SIGN IN", new_user_session_path, class: 'button_primary sign_in'
+        = javascript_include_tag 'fb_bot_analytics'
         = yield

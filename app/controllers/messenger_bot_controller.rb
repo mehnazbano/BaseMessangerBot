@@ -130,7 +130,6 @@ class MessengerBotController < ActionController::Base
       else
         'Under mainteinace - 3 🏗️'
       end
-    p 'message=------'
     if defined?(response) && response.present?
       JSON.parse(response.to_json)
     else
