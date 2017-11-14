@@ -5,13 +5,10 @@ module Messenger
         messaging_events = data["entry"].first["messaging"]
         messaging_events.each_with_index do |event, key|
           if event["message"] && !defined?(message).nil?
-            p 'share11111'
             self.class.send(:message, event)
           elsif event["postback"] && !defined?(postback).nil?
-            p 'share222222'
             self.class.send(:postback, event)
           elsif event["delivery"] && !defined?(delivery).nil?
-            p p 'share333333333'
             self.class.send(:delivery, event)
           end 
         end 
