@@ -23,3 +23,25 @@ MehnazApp.Common.DropdownSelection = do ->
     $('.microblog_status').hide()
     _microblog_community = $('.microblog_community_id').on('click', _updateNewDropdownlist)
     _microblog_stat_community =  $('.microblog_type .select_dropdown').on('click', _updateStatusDropdownlist)
+    $(document).on 'ready page:load', ->
+      if $('#visualization').length > 0
+        category_foam = []
+        $.ajax
+          url: MehnazApp.Common.Util.computePath '/home/foam_tree'
+          dataType: 'json'
+          jsonpCallback: 'callback'
+          success: (data) ->
+            console.log(data)
+            for k,v of data
+              foam_hash = {}
+              foam_hash['label'] = k
+              foam_hash['weight'] = v
+              category_foam.push foam_hash
+            console.log('category_foam')
+            console.log(category_foam)
+            foamtree = new CarrotSearchFoamTree(
+              id: 'visualization'
+            )
+            foamtree.set({
+              dataObject: groups: category_foam
+            });

@@ -16,7 +16,6 @@ body {
   .container_body {
     width: 100%;
     height: 100%;
-    position: fixed;
     #user_nav {
       margin-top: 10%;
       margin-left: 40%;
@@ -230,4 +229,8 @@ h1 {
   .info_section {
     height: 160px;
   }
+}
+table, th, td {
+  color: #b3b5b9;
+  border: 1px solid #b3b5b9;
 }

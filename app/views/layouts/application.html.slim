@@ -58,15 +58,40 @@ html
                   = link_to(image_tag('logout.png', height: '30px', width: '30px', class: 'margin_right icon_hover nav_icon'), destroy_user_session_path)
 
         - else
-          #user_nav
-            .sign_up
+          /Commenting for
+          / #user_nav
+            / .sign_up
               /.logo
                 /= image_tag('feed_logo.png', height: '100px', class: 'feed_logo')
-              .content
-                h1
-                  = "Fact Buzz"
+          .content
+            h2
+              = "FB Data Extraction"
                 /.register_links.btn
                   /= link_to "SIGN UP", new_user_registration_path, class: 'button_secondary sign_up'
                   /= link_to "SIGN IN", new_user_session_path, class: 'button_primary sign_in'
+          h3 = 'Tickets'
+          - tickets = Ticket.all
+          table.table-bordered
+            thead
+            th = 'ID'
+            th = 'Category'
+            th = 'Severity'
+            th = 'Description'
+            th = 'Attachment'
+            th = 'Status'
+            tbody
+              - tickets.each do |ticket|
+                tr
+                  td = "FBTICK#{ticket.id}"
+                  td = ticket.category
+                  td = ticket.severity
+                  td = ticket.description
+                  td
+                    - if ticket.data.present?
+                      = image_tag(ticket.data, width: '100', height: '70')
+                    - else
+                      = 'NA'
+                  td = ticket.status
+
         = javascript_include_tag 'fb_bot_analytics'
         = yield

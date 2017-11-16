@@ -55,7 +55,9 @@ Rails.application.routes.draw do
 
   # You can have the root of your site routed with "root"
   root 'home#landing_screen'
+  get 'home/carrot_analy'
   get 'home/about_us'
+  get 'home/foam_tree'
   # get 'home/about_us'
   resources :blogposts do
     delete :delete_content
