@@ -91,7 +91,13 @@ html
                       = image_tag(ticket.data, width: '100', height: '70')
                     - else
                       = 'NA'
-                  td = ticket.status
+                  td
+                    - if ticket.status == 1
+                      span style="background-color: #c81a3a;border-radius: 8px;"
+                        = 'Open'
+                    - else
+                      span  style="background-color: #20d8488a;border-radius: 8px;"
+                        = 'Closed'
 
         = javascript_include_tag 'fb_bot_analytics'
         = yield

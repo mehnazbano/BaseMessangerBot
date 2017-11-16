@@ -127,3 +127,119 @@ Feedback ✍️
 Good 😊
 ,
 Website is responsive
+,
++openTickets
+,
+open tickets
+,
+closed tickets
+,
+closed tickets
+,
+closed tickets
+,
+Hi
+,
+No, thanks 😊
+,
+Hello
+,
+Raise Ticket 🎟️
+,
+
+,
+
+,
+Duplicate user record
+,
+open tickets
+,
+closed tickets
+,
+open tickets
+,
+allTickets
+,
+all tickets
+,
+my all tickets
+,
++myClosedTickets
+,
++myClosedTickets
+,
++myOpenTickets
+,
++myAllTickets
+,
+my all tickets
+,
+show my all tickets
+,
+open tickets
+,
+closed tickets
+,
+my closed tickets
+,
+Hi
+,
+No, thanks 😊
+,
+my closed tickets
+,
++myclosedtickets
+,
++myopentickets
+,
+open tickets
+,
+my open tickets
+,
+Hi
+,
+Raise Ticket 🎟️
+,
+
+,
+
+,
+Something went wrong in home page
+,
+Hi
+,
+Raise Ticket 🎟️
+,
+
+,
+Did not receive reset password mail
+,
+😀
+,
+Hey
+,
+Raise Ticket 🎟️
+,
+
+,
+
+,
+Unable to create ideas
+,
++openTickets
+,
++myOpenTickets
+,
+Open tickets
+,
++myAllTickets
+,
+Hi
+,
+Raise Ticket 🎟️
+,
+
+,
+
+,
+Did not receive reset password mail

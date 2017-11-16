@@ -15,11 +15,8 @@ class MessengerBotController < ActionController::Base
       query_string = @query_string.gsub(' ', '%20')
       session_id = event['sender']['id']
       version = DateTime.now().strftime('%Y%m%d')
-      # if query_string.present?
-        # api_response = HTTParty.post("https://api.wit.ai/message?v=#{version}&q=#{query_string}", headers: { 'Authorization' => 'Bearer R3PQSNRVIY3S57HLAZGPWR7A52XNFUH3',"Content-Type" => "application/json","Accept" => "application/json"}).parsed_response
       message = map_entity_to_value(params)
       sender.reply(message)
-      # end
     end
   end
 
@@ -92,7 +89,7 @@ class MessengerBotController < ActionController::Base
       ticket.severity = ticket_sev
       ticket.save
     when 'exit'
-      message = { text: 'Bye 😊. It was nice talking to you, hope to see you again.'}
+      message = { text: 'Bye 😊. It was nice talking to you.'}
     when 'play'
       message = { text: 'Guess movie name - 🕷️🚶'}
     else
@@ -115,9 +112,9 @@ class MessengerBotController < ActionController::Base
         when 'hi', 'hey', 'hello'
           response = bot_intro
         when 'bye'
-          'Bye 😊. It was nice talking to you, hope to see you again.'
+          'Bye 😊. It was nice talking to you.'
         else
-          'Under mainteinace - 1 🏗️'
+          'I didnt get you 🏗️'
         end
       when 'wit_course'
         case params['entry'][0]['messaging'][0]['message']['nlp']['entities'].values.flatten.first['value'].downcase
@@ -152,7 +149,7 @@ class MessengerBotController < ActionController::Base
             }
           }
         else
-          'Under mainteinace - 2 🏗️'
+          'I didnt get you 🏗️'
         end
       when 'wit_ticket'
         case params['entry'][0]['messaging'][0]['message']['nlp']['entities'].values.flatten.first['value'].downcase
@@ -198,7 +195,7 @@ class MessengerBotController < ActionController::Base
           "😃️ We'll keep trying to improve our services. 👷‍♀️"
         end
       else
-        'Under mainteinace - 3 🏗️'
+        'I didnt get you 🏗️'
       end
     File.open('junk.txt', 'a') do |f2|
       f2.puts ','
@@ -220,7 +217,7 @@ class MessengerBotController < ActionController::Base
       tickets = Ticket.where(fb_app_user_id: sender_id)
     end
     if tickets.present?
-      tickets.map{|tic| "FBTICK#{tic.id} - #{tic.description}"}.compact.flatten.to_sentence
+      tickets.map{|tic| tic.description.present? ? "FBTICK#{tic.id} - #{tic.description}" : nil }.compact.flatten.to_sentence
     else
       "No tickets Matched"
     end
@@ -356,10 +353,5 @@ class MessengerBotController < ActionController::Base
         }
       }
     }
-  end
-
-  def toi_data_call(location='chennai')
-    # news = HTTParty.get('https://newsapi.org/v1/articles?source=the-times-of-india&sortBy=top&apiKey=e862f5c9b8e54f90a7a4c53e16f4a4e3')
-    data = HTTParty.get("https://maps.googleapis.com/maps/api/place/textsearch/json?query=#{location}&key=AIzaSyAzCT4LdFbRdL-WdbD7bEu6KE5CVPpx-7M")
   end
 end
