@@ -7,9 +7,12 @@ class MessengerBotController < ActionController::Base
 
   def message(event, sender)
     if params['entry'][0]['messaging'][0]['message']['attachments'].present?
-      ticket = Ticket.last
-      ticket.data = open(params['entry'][0]['messaging'][0]['message']['attachments'][0]['payload']['url'])
-      ticket.save
+      ticket = Ticket.where(fb_app_user_id: params['entry'][0]['messaging'][0]['sender']['id']).sort_by(&:created_at).reverse.first
+      if ticket
+        ticket.data = open(params['entry'][0]['messaging'][0]['message']['attachments'][0]['payload']['url'])
+        ticket.save
+        sender.reply(message = { text: "Thanks, got the attachment. We'll notifying you offline once it is resolved. Is there anything else I can help you with?", quick_replies: [{ content_type: "text", title: "Continue", payload: "intro"},{ content_type: "text", title: "Talk later", payload: "exit"}]})
+      end
     else
       @query_string = event['message']['text']
       query_string = @query_string.gsub(' ', '%20')
@@ -60,6 +63,12 @@ class MessengerBotController < ActionController::Base
       message = select_feedback_options
     when 'reason_input'
       message = { text: 'Thank you 👍. Please help us by providing reason for your feedback.'}
+    when 'yes_attachment'
+      message = { text: "Please upload by clicking attachment link below."}
+    when 'no_attachment'
+      message = { text: "Thanks, we'll notifying you offline once it is resolved. Is there anything else I can help you with?", quick_replies: [{ content_type: "text", title: "I would like to continue", payload: "intro"}, { content_type: "text", title: "Talk Later", payload: "exit"}]}
+    when 'intro'
+      message = bot_intro
     when 'raise_ticket'
       case params['entry'][0]['messaging'][0]['message']['text']
       when 'Severity 1 🔴', 'Severity 1', 'sev 1', 'sev1'
@@ -85,9 +94,11 @@ class MessengerBotController < ActionController::Base
         page_scoped_user_id: params['entry'][0]['messaging'][0]['sender']['id'].to_i
       }
       HTTParty.post('https://graph.facebook.com/687315501471774/activities', body: data_analy.to_json,  headers: { "Content-Type" => "application/json"})
-      ticket = Ticket.last
-      ticket.severity = ticket_sev
-      ticket.save
+      ticket = Ticket.where(fb_app_user_id: params['entry'][0]['messaging'][0]['sender']['id'], description: nil).sort_by(&:created_at).reverse.first
+      if ticket.present?
+        ticket.severity = ticket_sev
+        ticket.save
+      end
     when 'exit'
       message = { text: 'Bye 😊. It was nice talking to you.'}
     when 'play'
@@ -162,10 +173,14 @@ class MessengerBotController < ActionController::Base
         when 'closed tickets'
           ticket_stats(params['entry'][0]['messaging'][0]['sender']['id'], 2)
         else
-          ticket = Ticket.last
-          ticket.description = params['entry'][0]['messaging'][0]['message']['text']
-          ticket.save
-          "😃️ We have registered your ticket( id - FBTICKET#{ticket.id} ). We'll keep trying to improve our services. 👷‍♀️ Thank you."
+          ticket = Ticket.where(fb_app_user_id: params['entry'][0]['messaging'][0]['sender']['id'], description: nil).sort_by(&:created_at).reverse.first
+          if ticket.present?
+            ticket.description = params['entry'][0]['messaging'][0]['message']['text']
+            ticket.save
+            response = request_for_attachment(ticket)
+          else
+            'I didnt get you 🏗️'
+          end
         end
       when 'wit_severity'
         case params['entry'][0]['messaging'][0]['message']['nlp']['entities'].values.flatten.first['value'].downcase
@@ -192,7 +207,7 @@ class MessengerBotController < ActionController::Base
         when 'Excellent', 'Okay', 'Not Okay', 'Good'
           'Thank you 👍. Please help us by providing reason for your feedback.'
         else
-          "😃️ We'll keep trying to improve our services. 👷‍♀️"
+          "We'll keep trying to improve our services. 😃️"
         end
       else
         'I didnt get you 🏗️'
@@ -210,16 +225,16 @@ class MessengerBotController < ActionController::Base
 
   def ticket_stats(sender_id, status=nil)
     if status == 1
-      tickets = Ticket.where(fb_app_user_id: sender_id, status: 1)
+      tickets = Ticket.where(fb_app_user_id: sender_id, status: 1, :description.not_eq => nil)
     elsif status == 2
-      tickets = Ticket.where(fb_app_user_id: sender_id, status: 2)
+      tickets = Ticket.where(fb_app_user_id: sender_id, status: 2, :description.not_eq => nil)
     else
-      tickets = Ticket.where(fb_app_user_id: sender_id)
+      tickets = Ticket.where(fb_app_user_id: sender_id, :description.not_eq => nil )
     end
     if tickets.present?
-      tickets.map{|tic| tic.description.present? ? "FBTICK#{tic.id} - #{tic.description}" : nil }.compact.flatten.to_sentence
+      tickets.map{|tic| tic.description.present? ? "FBTICK#{tic.id} - #{tic.description}" : nil }.compact.flatten.to_sentence.truncate(639)
     else
-      "No tickets Matched"
+      "No tickets found"
     end
   end
 
@@ -243,17 +258,17 @@ class MessengerBotController < ActionController::Base
             buttons: [
               {
                 type: "postback",
-                title: "Raise Ticket 🎟️",
+                title: "Raise a Ticket 🎟️",
                 payload: "select_category",
               },
               {
                 type: "postback",
-                title: "Feedback ✍️",
+                title: "Give Feedback ✍️",
                 payload: "feedback",
               },
               {
                 type: "postback",
-                title: "No, thanks 😊",
+                title: "Talk Later 😊",
                 payload: "exit",
               }
             ],
@@ -269,7 +284,7 @@ class MessengerBotController < ActionController::Base
       quick_replies: [
         {
           content_type: "text",
-          title: "Access denied",
+          title: "Access is denied",
           payload: "select_severity"
         },
         {
@@ -281,12 +296,12 @@ class MessengerBotController < ActionController::Base
           content_type: "text",
           title: "Content creation",
           payload: "select_severity"
-        },
-        {
-          content_type: "text",
-          title: "No thanks 😊",
-          payload: "exit"
         }
+        # {
+        #   content_type: "text",
+        #   title: "Talk later 😊",
+        #   payload: "exit"
+        # }
       ]
     }
   end
@@ -314,12 +329,12 @@ class MessengerBotController < ActionController::Base
           content_type: "text",
           title: "Severity 4 ⚪",
           payload: "raise_ticket"
-        },
-        {
-          content_type: "text",
-          title: "No thanks 😊",
-          payload: "exit"
         }
+        # {
+        #   content_type: "text",
+        #   title: "Talk later 😊",
+        #   payload: "exit"
+        # }
       ]
     }
   end
@@ -347,6 +362,33 @@ class MessengerBotController < ActionController::Base
                 type: "postback",
                 title: "Okay 🙂",
                 payload: "reason_input",
+              }
+            ],
+          }]
+        }
+      }
+    }
+  end
+
+  def request_for_attachment(ticket)
+    {
+      attachment: {
+        type: "template",
+        payload: {
+          template_type: "generic",
+          elements: [{
+            title: "Okay, got it. We have registered your ticket( id - FBTICKET#{ticket.id} ).",
+            subtitle: "Would you like to attach some image/ PDF/ DOC to this Ticket?",
+            buttons: [
+              {
+                type: "postback",
+                title: "Yes",
+                payload: "yes_attachment",
+              },
+              {
+                type: "postback",
+                title: "Not required",
+                payload: "no_attachment",
               }
             ],
           }]

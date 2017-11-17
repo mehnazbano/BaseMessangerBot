@@ -243,3 +243,265 @@ Raise Ticket 🎟️
 
 ,
 Did not receive reset password mail
+,
+Hi
+,
+No, thanks 😊
+,
+Hi
+,
+Feedback ✍️
+,
+Okay 🙂
+,
+website is responsive
+,
+Hi
+,
+Raise Ticket 🎟️
+,
+
+,
+
+,
+unable to create idea
+,
++myOpenTickets
+,
++myClosedTickets
+,
+open tickets
+,
++myAllTickets
+,
+All Tickets
+,
+Hi
+,
+Raise Ticket 🎟️
+,
+
+,
+
+,
+unable to post idea
+,
+
+,
+unable to create idea
+,
+hi
+,
+Raise Ticket 🎟️
+,
+
+,
+
+,
+random text appears, seems like my keyboard is not working
+,
+Hi
+,
+Raise a Ticket 🎟️
+,
+
+,
+
+,
+Duplicate user record
+,
+Hi
+,
+Raise a Ticket 🎟️
+,
+
+,
+
+,
+Unable to create idea
+,
+Yes
+,
+Hi
+,
+Talk Later 😊
+,
+Hi
+,
+Raise a Ticket 🎟️
+,
+
+,
+
+,
+Unable to create idea
+,
+Yes
+,
+
+,
+Give Feedback ✍️
+,
+Okay 🙂
+,
+Website is responsive
+,
+Hi
+,
+Raise a Ticket 🎟️
+,
+
+,
+
+,
+Didnt receive reset password mail
+,
+Not required
+,
+Hi
+,
+Raise a Ticket 🎟️
+,
+
+,
+
+,
+Unable to create idea
+,
+Not required
+,
+
+,
+Hi
+,
+Give Feedback ✍️
+,
+Excellent 😃️
+,
+Website is responsive
+,
++myOpenTickets
+,
+Hi
+,
+Talk Later 😊
+,
++myOpenTickets
+,
+Hi
+,
+open tickets
+,
+hi
+,
+Talk Later 😊
+,
++myOpenTickets
+,
++myOpenTickets
+,
++myOpenTickets
+,
++myOpenTickets
+,
+Hi
+,
+Hi
+,
+Hi
+,
+Hi
+,
+Raise a Ticket 🎟️
+,
+
+,
+
+,
+Unable to create ideas
+,
+Yes
+,
+
+,
++myOpenTickets
+,
++myOpenTickets
+,
++myClosedTickets
+,
+open tickets
+,
++allTickets
+,
++myTickets
+,
+Hi
+,
+Give Feedback ✍️
+,
+Excellent 😃️
+,
+Website is responsive
+,
+Hi
+,
+Give Feedback ✍️
+,
+Excellent 😃️
+,
+UX is good
+,
+user experience is good
+,
+website is respoksive
+,
+website is responsive
+,
+Hi
+,
+Give Feedback ✍️
+,
+Okay 🙂
+,
+design is not good
+,
+user experience is good
+,
+user experience is good
+,
+UI is good
+,
+design is good
+,
+website is responsive
+,
+Hi
+,
+Give Feedback ✍️
+,
+Give Feedback ✍️
+,
+Good 😊
+,
+Website is responsive
+,
+UI is good
+,
+deisgn is good
+,
+design is good
+,
+user experience is good
+,
+Hi
+,
+Give Feedback ✍️
+,
+Excellent 😃️
+,
+user experience is great
+,
+user experience is good
+,
+UI is good
