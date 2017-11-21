@@ -18,4 +18,10 @@ class HomeController < ApplicationController
     end
     render json: processed_details
   end
+
+  def d3_analy
+    data = [1,2,3,4,5,6]
+    render json: data
+  end
+
 end

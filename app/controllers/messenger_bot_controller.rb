@@ -11,7 +11,7 @@ class MessengerBotController < ActionController::Base
       if ticket
         ticket.data = open(params['entry'][0]['messaging'][0]['message']['attachments'][0]['payload']['url'])
         ticket.save
-        sender.reply(message = { text: "Thanks, got the attachment. We'll notifying you offline once it is resolved. Is there anything else I can help you with?", quick_replies: [{ content_type: "text", title: "Continue", payload: "intro"},{ content_type: "text", title: "Talk later", payload: "exit"}]})
+        sender.reply(message = { text: "Thanks, got the attachment. We'll notifying you offline once it is resolved. Is there anything else I can help you with?", quick_replies: [{ content_type: "text", title: "Continue", payload: "intro"},{ content_type: "text", title: "May be later!", payload: "exit"}]})
       end
     else
       @query_string = event['message']['text']
@@ -33,7 +33,7 @@ class MessengerBotController < ActionController::Base
       message = select_ticket_category
     when 'select_severity'
       case params['entry'][0]['messaging'][0]['message']['text']
-      when 'Access denied'
+      when 'Access is denied'
         ticket_cat = 'Access Denied'
       when 'Forgot password'
         ticket_cat = 'Forgot password'
@@ -54,8 +54,8 @@ class MessengerBotController < ActionController::Base
           page_scoped_user_id: params['entry'][0]['messaging'][0]['sender']['id'].to_i
         }
         HTTParty.post('https://graph.facebook.com/687315501471774/activities', body: data_analy.to_json,  headers: { "Content-Type" => "application/json"})
-        ticket = ::Ticket.create(fb_app_user_id: params['entry'][0]['messaging'][0]['sender']['id'], category: ticket_cat, status: 1)
       end
+      ticket = ::Ticket.create(fb_app_user_id: params['entry'][0]['messaging'][0]['sender']['id'], category: params['entry'][0]['messaging'][0]['message']['text'], status: 1)
       message = select_ticket_severity
     when 'Welcome to Mehnaz Biot'
       message = bot_intro
@@ -66,7 +66,7 @@ class MessengerBotController < ActionController::Base
     when 'yes_attachment'
       message = { text: "Please upload by clicking attachment link below."}
     when 'no_attachment'
-      message = { text: "Thanks, we'll notifying you offline once it is resolved. Is there anything else I can help you with?", quick_replies: [{ content_type: "text", title: "I would like to continue", payload: "intro"}, { content_type: "text", title: "Talk Later", payload: "exit"}]}
+      message = { text: "Thanks, we'll notifying you offline once it is resolved. Is there anything else I can help you with?", quick_replies: [{ content_type: "text", title: "I would like to continue", payload: "intro"}, { content_type: "text", title: "May be later!", payload: "exit"}]}
     when 'intro'
       message = bot_intro
     when 'raise_ticket'
@@ -94,12 +94,44 @@ class MessengerBotController < ActionController::Base
         page_scoped_user_id: params['entry'][0]['messaging'][0]['sender']['id'].to_i
       }
       HTTParty.post('https://graph.facebook.com/687315501471774/activities', body: data_analy.to_json,  headers: { "Content-Type" => "application/json"})
-      ticket = Ticket.where(fb_app_user_id: params['entry'][0]['messaging'][0]['sender']['id'], description: nil).sort_by(&:created_at).reverse.first
+      ticket = ::Ticket.where(fb_app_user_id: params['entry'][0]['messaging'][0]['sender']['id'], description: nil).sort_by(&:created_at).reverse.first
       if ticket.present?
         ticket.severity = ticket_sev
         ticket.save
       end
     when 'exit'
+      message = { text: "Would you like to rate this conversation(> 8 for Highly Safisfied, > 6 for Safisfied, > 4 for Average, < 4 for below average?", quick_replies: [{ content_type: "text", title: "Greater than 8", payload: "highly_satisfied"}, { content_type: "text", title: "Greater than 6", payload: "highly_satisfied"}, { content_type: "text", title: "Greater than 4", payload: "satisfied"}, { content_type: "text", title: "Less than 4", payload: "not_satisfied"}, { content_type: "text", title: "May be later!", payload: "quit"}]}
+    when 'highly_satisfied', 'satisfied', 'not_satisfied'
+      message = { text: 'Thank you for your valuable feedback. It was nice talking to you. Bye 😊.'}
+      rating = nil
+      case params['entry'][0]['messaging'][0]['message']['text'].downcase
+      when "greater than 8"
+        rating = params['entry'][0]['messaging'][0]['message']['text']
+      when "greater than 6"
+        rating = params['entry'][0]['messaging'][0]['message']['text']
+      when "greater than 4"
+        rating = params['entry'][0]['messaging'][0]['message']['text']
+      when "less than 4"
+        rating = params['entry'][0]['messaging'][0]['message']['text']
+      end
+      p 'rating------------------'
+      p rating
+      if rating.present?
+        data_analy = {
+          event: 'CUSTOM_APP_EVENTS',
+          custom_events: [{
+            _eventName: rating,
+            _valueToSum: 1,
+          }],
+          advertiser_tracking_enabled: 0,
+          application_tracking_enabled: 0,
+          extinfo: ['mb1'],
+          page_id: 119934735348876,
+          page_scoped_user_id: params['entry'][0]['messaging'][0]['sender']['id'].to_i
+        }
+        HTTParty.post('https://graph.facebook.com/687315501471774/activities', body: data_analy.to_json,  headers: { "Content-Type" => "application/json"})
+      end
+    when 'quit'
       message = { text: 'Bye 😊. It was nice talking to you.'}
     when 'play'
       message = { text: 'Guess movie name - 🕷️🚶'}
@@ -173,7 +205,7 @@ class MessengerBotController < ActionController::Base
         when 'closed tickets'
           ticket_stats(params['entry'][0]['messaging'][0]['sender']['id'], 2)
         else
-          ticket = Ticket.where(fb_app_user_id: params['entry'][0]['messaging'][0]['sender']['id'], description: nil).sort_by(&:created_at).reverse.first
+          ticket = ::Ticket.where(fb_app_user_id: params['entry'][0]['messaging'][0]['sender']['id'], description: nil).sort_by(&:created_at).reverse.first
           if ticket.present?
             ticket.description = params['entry'][0]['messaging'][0]['message']['text']
             ticket.save
@@ -195,8 +227,10 @@ class MessengerBotController < ActionController::Base
         end
       when 'wit_tic_category'
         case params['entry'][0]['messaging'][0]['message']['nlp']['entities'].values.flatten.first['value'].downcase
-        when 'content creation', 'forgot password', 'access denied'
+        when 'content creation', 'forgot password', 'access denied', 'access is denied'
           response = select_ticket_severity
+          ticket = ::Ticket.create(fb_app_user_id: params['entry'][0]['messaging'][0]['sender']['id'], category: params['entry'][0]['messaging'][0]['message']['text'], status: 1)
+          #HTTParty.post('https://graph.facebook.com/687315501471774/activities', body: data_analy.to_json,  headers: { "Content-Type" => "application/json"})
         else
           'Please specify appropriate category.'
         end
@@ -225,11 +259,11 @@ class MessengerBotController < ActionController::Base
 
   def ticket_stats(sender_id, status=nil)
     if status == 1
-      tickets = Ticket.where(fb_app_user_id: sender_id, status: 1, :description.not_eq => nil)
+      tickets = ::Ticket.where(fb_app_user_id: sender_id, status: 1, :description.not_eq => nil)
     elsif status == 2
-      tickets = Ticket.where(fb_app_user_id: sender_id, status: 2, :description.not_eq => nil)
+      tickets = ::Ticket.where(fb_app_user_id: sender_id, status: 2, :description.not_eq => nil)
     else
-      tickets = Ticket.where(fb_app_user_id: sender_id, :description.not_eq => nil )
+      tickets = ::Ticket.where(fb_app_user_id: sender_id, :description.not_eq => nil )
     end
     if tickets.present?
       tickets.map{|tic| tic.description.present? ? "FBTICK#{tic.id} - #{tic.description}" : nil }.compact.flatten.to_sentence.truncate(639)
