@@ -90,7 +90,7 @@ html
                   td = ticket.description
                   td
                     - if ticket.data.present?
-                      = image_tag(ticket.data, width: '100', height: '70')
+                      = link_to "#{image_tag(ticket.data, width: '100', height: '70')}".html_safe, ticket.data.url, target: '_blank'
                     - else
                       = 'NA'
                   td
