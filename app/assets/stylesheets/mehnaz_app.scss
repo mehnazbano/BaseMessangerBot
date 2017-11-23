@@ -234,7 +234,29 @@ table, th, td {
   color: #b3b5b9;
   border: 1px solid #b3b5b9;
 }
-#graph {
+#chart {
   background-color: #fff;
-  height: 200px;
+  padding: 50px;
+}
+body {
+  font-family: sans-serif;
+}
+g.arc path {
+  stroke: #828282;
+  stroke-width: 0.5;
+}
+g.arc text {
+  font-size: 10px;
+}
+
+#myd3 {
+  border: 3px solid #f193a9d1;
+  text-align: center;
+  margin-top: 50px;
+}
+
+#mycarrot {
+  border: 3px solid #bd71d6;
+  text-align: center;
+  background-color: #fff;
 }

@@ -18,33 +18,31 @@ MehnazApp.Common.DropdownSelection = do ->
     else
       $('.microblog_status').hide()
 
-  draw = (data) ->
-    color = d3.scaleOrdinal(d3.schemeCategory10)
-    width = 420
-    barHeight = 20
-    x = d3.scaleLinear().range([
-      0
-      width
-    ]).domain([
-      0
-      d3.max(data)
-    ])
-    chart = d3.select('#graph').attr('width', width).attr('height', barHeight * data.length).style("background-color", "yellow");
-    bar = chart.selectAll('g').data(data).enter().append('g').attr('transform', (d, i) ->
-      'translate(0,' + i * barHeight + ')'
+  draw = (dataset) ->
+    diameter = 900
+    color = d3.scaleOrdinal(d3.schemeCategory20)
+    bubble = d3.pack(dataset).size([
+      diameter
+      diameter
+    ]).padding(5)
+    svg = d3.select('#chart').append('svg').attr('width', diameter).attr('height', diameter).attr('class', 'bubble')
+    nodes = d3.hierarchy(dataset).sum((d) ->
+      d.responseCount
     )
-    bar.append('rect').attr('width', x).attr('height', barHeight - 1).style 'fill', (d) ->
-      color d
-    bar.append('text').attr('x', (d) ->
-      x(d) - 10
-    ).attr('y', barHeight / 2).attr('dy', '.35em').style('color', 'red').text (d) ->
-      d
-    return
-
-  error = ->
-    console.log 'error'
-    return
-
+    node = svg.selectAll('.node').data(bubble(nodes).descendants()).enter().filter((d) ->
+      !d.children
+    ).append('g').attr('class', 'node').attr('transform', (d) ->
+      'translate(' + d.x + ',' + d.y + ')'
+    )
+    node.append('title').text (d) ->
+      d.facilityId + ' (' + d.responseCount + ')'
+    node.append('circle').attr('r', (d) ->
+      d.r
+    ).style 'fill', (d) ->
+      color Math.floor(Math.random() * 10)
+    node.append('text').attr('dy', '.3em').style('text-anchor', 'middle').style('font-size', '10px').text (d) ->
+      d.data.facilityId.substring(0, d.r / 3) + ' (' + d.data.responseCount + ')'
+    d3.select(self.frameElement).style 'height', diameter + 'px'
 
   init : ->
     $('.microblog_type').hide()
@@ -62,18 +60,16 @@ MehnazApp.Common.DropdownSelection = do ->
             console.log(data)
             for k,v of data
               foam_hash = {}
-              foam_hash['label'] = k
+              foam_hash['label'] = "#{k} (#{v})"
               foam_hash['weight'] = v
               category_foam.push foam_hash
-            console.log('category_foam')
-            console.log(category_foam)
             foamtree = new CarrotSearchFoamTree(
               id: 'visualization'
             )
             foamtree.set({
               dataObject: groups: category_foam
             });
-      if $('#graph').length > 0
+      if $('#chart').length > 0
         $.ajax
           url: MehnazApp.Common.Util.computePath '/home/d3_analy'
           dataType: 'json'
