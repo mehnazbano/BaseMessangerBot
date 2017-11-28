@@ -114,8 +114,6 @@ class MessengerBotController < ActionController::Base
       when "less than 4"
         rating = params['entry'][0]['messaging'][0]['message']['text']
       end
-      p 'rating------------------'
-      p rating
       if rating.present?
         data_analy = {
           event: 'CUSTOM_APP_EVENTS',

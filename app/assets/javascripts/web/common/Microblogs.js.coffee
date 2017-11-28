@@ -24,7 +24,7 @@ MehnazApp.Common.DropdownSelection = do ->
     bubble = d3.pack(dataset).size([
       diameter
       diameter
-    ]).padding(5)
+    ]).padding(30)
     svg = d3.select('#chart').append('svg').attr('width', diameter).attr('height', diameter).attr('class', 'bubble')
     nodes = d3.hierarchy(dataset).sum((d) ->
       d.responseCount
@@ -35,13 +35,24 @@ MehnazApp.Common.DropdownSelection = do ->
       'translate(' + d.x + ',' + d.y + ')'
     )
     node.append('title').text (d) ->
-      d.facilityId + ' (' + d.responseCount + ')'
+      d.data.facilityId + ' (' + d.data.responseCount + ')'
     node.append('circle').attr('r', (d) ->
       d.r
     ).style 'fill', (d) ->
       color Math.floor(Math.random() * 10)
-    node.append('text').attr('dy', '.3em').style('text-anchor', 'middle').style('font-size', '10px').text (d) ->
-      d.data.facilityId.substring(0, d.r / 3) + ' (' + d.data.responseCount + ')'
+    node.append('text').attr('dy', '.3em').style('text-anchor', 'middle').style('font-size', (d) ->
+      if d.r < 10
+        '5px'
+      else if d.r >= 10 && d.r <= 15
+        '7px'
+      else if d.r > 15 && d.r <= 20
+        '9px'
+      else if d.r > 20 && d.r <= 30
+        '10px'
+      else if d.r > 30
+        '20px'
+    ).text (d) ->
+      d.data.facilityId.substring(0, d.r / 3) + '(' + d.data.responseCount + ')'
     d3.select(self.frameElement).style 'height', diameter + 'px'
 
   init : ->
