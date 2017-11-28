@@ -18,23 +18,13 @@ Hi
 ,
 Raise Ticket 🎟️
 ,
-
-,
-
-,
 duplicate user record
 ,
 Hi
 ,
 Raise Ticket 🎟️
 ,
-
-,
-
-,
 Duplicate user record
-,
-
 ,
 Hi
 ,
@@ -43,12 +33,6 @@ Feedback ✍️
 Excellent 😃️
 ,
 +mytickets
-,
-
-,
-
-,
-
 ,
 Hi
 ,
@@ -62,10 +46,7 @@ User is duplicate
 ,
 Hey
 ,
-,
-,
 Forgot password
-,
 ,
 Forgot password
 ,
@@ -75,20 +56,11 @@ Duplicate user record
 ,
 Hi
 ,
-,
-,
 Content creation
-,
 ,
 Hi
 ,
 Raise Ticket 🎟️
-,
-
-,
-
-,
-
 ,
 Duplicate user record
 ,
@@ -113,10 +85,6 @@ hey
 Hi
 ,
 Raise Ticket 🎟️
-,
-
-,
-
 ,
 Duplicate user record
 ,
@@ -145,10 +113,6 @@ No, thanks 😊
 Hello
 ,
 Raise Ticket 🎟️
-,
-
-,
-
 ,
 Duplicate user record
 ,
@@ -200,17 +164,11 @@ Hi
 ,
 Raise Ticket 🎟️
 ,
-
-,
-
-,
 Something went wrong in home page
 ,
 Hi
 ,
 Raise Ticket 🎟️
-,
-
 ,
 Did not receive reset password mail
 ,
@@ -219,10 +177,6 @@ Did not receive reset password mail
 Hey
 ,
 Raise Ticket 🎟️
-,
-
-,
-
 ,
 Unable to create ideas
 ,
@@ -237,10 +191,6 @@ Open tickets
 Hi
 ,
 Raise Ticket 🎟️
-,
-
-,
-
 ,
 Did not receive reset password mail
 ,
@@ -260,10 +210,6 @@ Hi
 ,
 Raise Ticket 🎟️
 ,
-
-,
-
-,
 unable to create idea
 ,
 +myOpenTickets
@@ -280,13 +226,7 @@ Hi
 ,
 Raise Ticket 🎟️
 ,
-
-,
-
-,
 unable to post idea
-,
-
 ,
 unable to create idea
 ,
@@ -294,29 +234,17 @@ hi
 ,
 Raise Ticket 🎟️
 ,
-
-,
-
-,
 random text appears, seems like my keyboard is not working
 ,
 Hi
 ,
 Raise a Ticket 🎟️
 ,
-
-,
-
-,
 Duplicate user record
 ,
 Hi
 ,
 Raise a Ticket 🎟️
-,
-
-,
-
 ,
 Unable to create idea
 ,
@@ -330,15 +258,9 @@ Hi
 ,
 Raise a Ticket 🎟️
 ,
-
-,
-
-,
 Unable to create idea
 ,
 Yes
-,
-
 ,
 Give Feedback ✍️
 ,
@@ -350,10 +272,6 @@ Hi
 ,
 Raise a Ticket 🎟️
 ,
-
-,
-
-,
 Didnt receive reset password mail
 ,
 Not required
@@ -362,15 +280,9 @@ Hi
 ,
 Raise a Ticket 🎟️
 ,
-
-,
-
-,
 Unable to create idea
 ,
 Not required
-,
-
 ,
 Hi
 ,
@@ -414,15 +326,9 @@ Hi
 ,
 Raise a Ticket 🎟️
 ,
-
-,
-
-,
 Unable to create ideas
 ,
 Yes
-,
-
 ,
 +myOpenTickets
 ,
@@ -505,3 +411,313 @@ user experience is great
 user experience is good
 ,
 UI is good
+,
+UI and user experience is great
+,
+Not required
+,
+Hi
+,
+Give Feedback ✍️
+,
+Excellent 😃️
+,
+user experience is great
+,
+user experience is bad
+,
+UI is good
+,
+Hi
+,
+Talk Later 😊
+,
+Hi
+,
+Raise a Ticket 🎟️
+,
+unable to create idea
+,
+Yes
+,
+Hi
+,
+Give Feedback ✍️
+,
+Excellent 😃️
+,
+user experience is great
+,
+Hi
+,
+Raise a Ticket 🎟️
+,
+Something went wrong in home page
+,
+Not required
+,
+Hi
+,
+Raise a Ticket 🎟️
+,
+Something went wrong in home page
+,
+Not required
+,
+Hi
+,
+Raise a Ticket 🎟️
+,
+Hi
+,
+Raise a Ticket 🎟️
+,
+didnt receive reset password mail
+,
+didnt receive reset password mail
+,
+Hi
+,
+Raise a Ticket 🎟️
+,
+Unable to create idea
+,
+Yes
+,
+Hi
+,
+Raise a Ticket 🎟️
+,
+duplicate user record
+,
+unable to create idea
+,
+Hi
+,
+Raise a Ticket 🎟️
+,
+unable to create idea
+,
+Yes
+,
+Hi
+,
+Give Feedback ✍️
+,
+Excellent 😃️
+,
+website is responsive
+,
++myOpenTickets
+,
+open tickets
+,
++myClosedTickets
+,
++myTickets
+,
+Hi
+,
+Talk Later 😊
+,
+Hello
+,
+Raise a Ticket 🎟️
+,
+Unable to create idea
+,
+Not required
+,
++myOpenTickets
+,
++myClosedTickets
+,
+open tickets
+,
++myTickets
+,
+Hi
+,
+Talk Later 😊
+,
+Hi
+,
+Raise a Ticket 🎟️
+,
+duplicate user record
+,
+something went wrong in hom epage
+,
+Hi
+,
+Raise a Ticket 🎟️
+,
+something went wrong in home page
+,
+Duplicate user record
+,
+Gi
+,
+Hi
+,
+Raise a Ticket 🎟️
+,
+Duplicate user record
+,
+Yes
+,
+Hi
+,
+Talk Later 😊
+,
+Hi
+,
+Raise a Ticket 🎟️
+,
+something went wrong in home page
+,
+Not required
+,
+Hi
+,
+Talk Later 😊
+,
+Hi
+,
+Talk Later 😊
+,
+Hi
+,
+Talk Later 😊
+,
+Hi
+,
+Talk Later 😊
+,
+hi
+,
+Talk Later 😊
+,
+hi
+,
+Talk Later 😊
+,
+Hi
+,
+Talk Later 😊
+,
+Hi
+,
+Raise a Ticket 🎟️
+,
+something went wrong in home page
+,
+Not required
+,
+Hi
+,
+Talk Later 😊
+,
+Hi
+,
+Talk Later 😊
+,
+
+Hi
+,
+Talk Later 😊
+,
+Hi
+,
+Talk Later 😊
+,
+Hi
+,
+Talk Later 😊
+,
+Hi
+,
+Talk Later 😊
+,
+Hi
+,
+Talk Later 😊
+,
+Hi
+,
+Raise a Ticket 🎟️
+,
+something went wrong in home page
+,
+Not required
+,
+Hey
+,
+Raise a Ticket 🎟️
+,
+Unable to create idea
+,
+Yes
+,
+Talk Later 😊
+,
++myOpenTickets
+,
++myClosedTickets
+,
+Bye
+,
++myClosedTicket
+,
++myTickets
+,
++myTickets
+,
++myTickets
+,
+hi
+,
+Raise a Ticket 🎟️
+,
+
+unable to create idea
+,
+Yes
+,
++myOpenTickets
+,
+hi
+,
+Raise a Ticket 🎟️
+,
+unable to create idea
+,
+Yes
+,
+hi
+,
+Give Feedback ✍️
+,
+Excellent 😃️
+,
+website is responsive
+,
++myOpenTickets
+,
++myOpenTickets
+,
++myOpenTickets
+,
++myClosedTickets
+,
++myClosedTicket
+,
+open tickets
+,
+my open tickets
+,
+I would like to raise a ticket
+,
+can you log my ticket
+,
+bye it was nice talking to you

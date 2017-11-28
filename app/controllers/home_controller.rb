@@ -7,7 +7,8 @@ class HomeController < ApplicationController
 
   def foam_tree
     data = File.open('junk.txt').read.downcase
-    keywords = data.gsub!("\n",',').gsub!("\r", ',').split(/[\s,']/) - ['a', 'gi','and','is', 'the', 'hi', 'to', 'am', '', 'from', 'an', 'my', 'your', 'not', 'are', 'cant', 'can', 'would', 'wont', 'you', '1', '2', '3', '4', 'went', 'in', 'no', 'did', 'didnt']
+    # keywords = data.gsub!("\n",',').gsub!("\r", ',').split(/[\s,']/) - ['a', 'gi','and','is', 'the', 'hi', 'to', 'am', '', 'from', 'an', 'my', 'your', 'not', 'are', 'cant', 'can', 'would', 'wont', 'you', '1', '2', '3', '4', 'went', 'in', 'no', 'did', 'didnt']
+    keywords = data.split(/[\s,']/).delete_if(&:empty?).collect(&:strip) - ['hello', 'a', 'is', 'the', 'hi', 'to', 'am', '', 'from', 'an', 'my', 'your', 'not', 'are', 'cant', 'can', 'would', 'wont', 'you', '1', '2', '3', '4', 'went', 'in', 'no', 'did', 'didnt']
     processed_details = {}
     keywords.each do |keyword|
       if processed_details[keyword.to_sym].present?
@@ -21,7 +22,8 @@ class HomeController < ApplicationController
 
   def d3_analy
     data = File.open('junk.txt').read.downcase
-    keywords = data.gsub!("\n",',').gsub!("\r", ',').split(/[\s,']/) - ['a', 'is', 'the', 'hi', 'to', 'am', '', 'from', 'an', 'my', 'your', 'not', 'are', 'cant', 'can', 'would', 'wont', 'you', '1', '2', '3', '4', 'went', 'in', 'no', 'did', 'didnt']
+    # keywords = data.gsub!("\n",',').gsub!("\r", ',').split(/[\s,']/) - ['a', 'is', 'the', 'hi', 'to', 'am', '', 'from', 'an', 'my', 'your', 'not', 'are', 'cant', 'can', 'would', 'wont', 'you', '1', '2', '3', '4', 'went', 'in', 'no', 'did', 'didnt']
+    keywords = data.split(/[\s,']/).delete_if(&:empty?).collect(&:strip) - ['hello','a', 'is', 'the', 'hi', 'to', 'am', '', 'from', 'an', 'my', 'your', 'not', 'are', 'cant', 'can', 'would', 'wont', 'you', '1', '2', '3', '4', 'went', 'in', 'no', 'did', 'didnt']
     processed_details = {}
     keywords.each do |keyword|
       if processed_details[keyword.to_sym].present?
@@ -35,6 +37,18 @@ class HomeController < ApplicationController
       my_details[:children] << {facilityId: word, responseCount: count}
     end
     render json: my_details
+  end
+
+  def keyword_search
+    p "keyword_search insideee"
+    @keyword = params['keyword']
+    @related_text = []
+    data = File.open('junk.txt').read.downcase.split(',').flatten.compact.delete_if(&:empty?).collect(&:strip)
+    @related_text = data.select{|dd| dd.downcase.include?(@keyword)}.group_by{|text| [text]}
+    render json: { content: render_to_string( 'home/_carrot_search',
+      locals: { related_text: @related_text },
+      formats: [:html],
+      layout: false ) }
   end
 
 end

@@ -59,6 +59,8 @@ Rails.application.routes.draw do
   get 'home/about_us'
   get 'home/foam_tree'
   get 'home/d3_analy'
+  get 'home/keyword_search'
+
   # get 'home/about_us'
   resources :blogposts do
     delete :delete_content

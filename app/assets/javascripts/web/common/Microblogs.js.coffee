@@ -47,6 +47,7 @@ MehnazApp.Common.DropdownSelection = do ->
   init : ->
     $('.microblog_type').hide()
     $('.microblog_status').hide()
+    initvar = document.getElementById('data_details')
     _microblog_community = $('.microblog_community_id').on('click', _updateNewDropdownlist)
     _microblog_stat_community =  $('.microblog_type .select_dropdown').on('click', _updateStatusDropdownlist)
     $(document).on 'ready page:load', ->
@@ -62,6 +63,7 @@ MehnazApp.Common.DropdownSelection = do ->
               foam_hash = {}
               foam_hash['label'] = "#{k} (#{v})"
               foam_hash['weight'] = v
+              foam_hash['keyword'] = k
               category_foam.push foam_hash
             foamtree = new CarrotSearchFoamTree(
               id: 'visualization'
@@ -69,6 +71,20 @@ MehnazApp.Common.DropdownSelection = do ->
             foamtree.set({
               dataObject: groups: category_foam
             });
+            foamtree.set onGroupSelectionChanged: (info) ->
+              jQuery('#data_details').html('')
+              initvar.innerHTML = "Conversation details for "+ info.groups[0].label+""
+              keyword = info.groups[0].keyword
+              $.ajax
+                url: MehnazApp.Common.Util.computePath '/home/keyword_search'
+                data: {
+                "keyword": keyword
+                }
+                type: 'get'
+                dataType: 'json'
+                success: (data) ->
+                  $('#data_details').html(data.content)
+
       if $('#chart').length > 0
         $.ajax
           url: MehnazApp.Common.Util.computePath '/home/d3_analy'

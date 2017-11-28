@@ -1,0 +1,10 @@
+- if related_text.present?
+  h2 style='border: 1px solid #6483ab;width: 900px;position: relative;margin-top: 0px;'
+    = "Showing you results for '<i>#{@keyword} </i>' ".html_safe
+  - related_text.each do |text, all_match|
+    h3 style="color: #6483ab;"
+      = text[0]
+      span class='small_text'
+        = " (count - #{all_match.count})"
+- else
+  = "No data found for '<i>#{@keyword} </i>' ".html_safe
