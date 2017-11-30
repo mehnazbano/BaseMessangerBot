@@ -41,15 +41,16 @@ MehnazApp.Common.DropdownSelection = do ->
     ).style 'fill', (d) ->
       color Math.floor(Math.random() * 10)
     node.append('text').attr('dy', '.3em').style('text-anchor', 'middle').style('font-size', (d) ->
-      if d.r < 10
+      radius = parseInt(d.r)
+      if radius> 0 && radius <= 15
         '5px'
-      else if d.r >= 10 && d.r <= 15
+      else if radius > 15 && radius <= 25
         '7px'
-      else if d.r > 15 && d.r <= 20
+      else if radius > 25 && radius <= 30
         '9px'
-      else if d.r > 20 && d.r <= 30
+      else if radius > 30 && radius <= 70
         '10px'
-      else if d.r > 30
+      else if radius > 70
         '20px'
     ).text (d) ->
       d.data.facilityId.substring(0, d.r / 3) + '(' + d.data.responseCount + ')'

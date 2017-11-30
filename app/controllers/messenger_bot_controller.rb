@@ -6,12 +6,21 @@ class MessengerBotController < ActionController::Base
   require 'httparty'
 
   def message(event, sender)
+    p 'for etstingngnng'
+    p params
+    p 'eventeventeventevent'
+    p event
     if params['entry'][0]['messaging'][0]['message']['attachments'].present?
-      ticket = Ticket.where(fb_app_user_id: params['entry'][0]['messaging'][0]['sender']['id']).sort_by(&:created_at).reverse.first
-      if ticket
+      ticket = ::Ticket.where(fb_app_user_id: params['entry'][0]['messaging'][0]['sender']['id']).sort_by(&:created_at).reverse.first
+      feedback = ::Feedback.where(fb_app_user_id: params['entry'][0]['messaging'][0]['sender']['id']).sort_by(&:created_at).reverse.first
+      if ticket.present? && ( feedback.blank? || (ticket.try(:created_at ) > feedback.try(:created_at)) )
         ticket.data = open(params['entry'][0]['messaging'][0]['message']['attachments'][0]['payload']['url'])
         ticket.save
         sender.reply(message = { text: "Thanks, got the attachment. We'll notifying you offline once it is resolved. Is there anything else I can help you with?", quick_replies: [{ content_type: "text", title: "Continue", payload: "intro"},{ content_type: "text", title: "May be later!", payload: "exit"}]})
+      elsif feedback.present?
+        feedback.data = open(params['entry'][0]['messaging'][0]['message']['attachments'][0]['payload']['url'])
+        feedback.save
+        sender.reply(message = { text: "Thanks, got the attachment. We are continously trying to improve our services. Is there anything else I can help you with?", quick_replies: [{ content_type: "text", title: "Continue", payload: "intro"},{ content_type: "text", title: "May be later!", payload: "exit"}]})
       end
     else
       @query_string = event['message']['text']
@@ -62,11 +71,16 @@ class MessengerBotController < ActionController::Base
     when 'feedback'
       message = select_feedback_options
     when 'reason_input'
+      feedback = ::Feedback.create(fb_app_user_id: params['entry'][0]['messaging'][0]['sender']['id'], option: params['entry'][0]['messaging'][0]['postback']['title'])
       message = { text: 'Thank you 👍. Please help us by providing reason for your feedback.'}
     when 'yes_attachment'
       message = { text: "Please upload by clicking attachment link below."}
     when 'no_attachment'
       message = { text: "Thanks, we'll notifying you offline once it is resolved. Is there anything else I can help you with?", quick_replies: [{ content_type: "text", title: "I would like to continue", payload: "intro"}, { content_type: "text", title: "May be later!", payload: "exit"}]}
+    when 'yes_feedback_attachment'
+      message = { text: "Please upload by clicking attachment link below."}
+    when 'no_feedback_attachment'
+      message = { text: "Thanks. Is there anything else I can help you with?", quick_replies: [{ content_type: "text", title: "I would like to continue", payload: "intro"}, { content_type: "text", title: "May be later!", payload: "exit"}]}
     when 'intro'
       message = bot_intro
     when 'raise_ticket'
@@ -237,9 +251,16 @@ class MessengerBotController < ActionController::Base
         when 'feedback'
           response = select_feedback_options
         when 'Excellent', 'Okay', 'Not Okay', 'Good'
+          feedback = ::Feedback.create(fb_app_user_id: params['entry'][0]['messaging'][0]['sender']['id'], option: params['entry'][0]['messaging'][0]['message']['text'])
           'Thank you 👍. Please help us by providing reason for your feedback.'
         else
-          "We'll keep trying to improve our services. 😃️"
+          # "We'll keep trying to improve our services. 😃️"
+          feedback = ::Feedback.where(fb_app_user_id: params['entry'][0]['messaging'][0]['sender']['id'], description: nil).sort_by(&:created_at).reverse.first
+          if feedback.present?
+            feedback.description = params['entry'][0]['messaging'][0]['message']['text']
+            feedback.save
+          end
+          response = feedback_attachment
         end
       else
         'I didnt get you 🏗️'
@@ -277,9 +298,9 @@ class MessengerBotController < ActionController::Base
         payload: {
           template_type: "generic",
           elements: [{
-            title: "Hi, I am Tick BOT 🤖. How can I help you?",
+            title: "Hi, I am GTIO BOT 🤖. How can I help you?",
             subtitle: "Tap a button to specify your concern.",
-            image_url: 'https://pbs.twimg.com/profile_images/899382591236829184/Dk48Lg7S.jpg',
+            image_url: 'https://facbot.herokuapp.com/profile.png',
             default_action: {
               type: 'web_url',
               url: 'https://pbs.twimg.com/profile_images/899382591236829184/Dk48Lg7S.jpg',
@@ -421,6 +442,33 @@ class MessengerBotController < ActionController::Base
                 type: "postback",
                 title: "Not required",
                 payload: "no_attachment",
+              }
+            ],
+          }]
+        }
+      }
+    }
+  end
+
+  def feedback_attachment
+    {
+      attachment: {
+        type: "template",
+        payload: {
+          template_type: "generic",
+          elements: [{
+            title: "Okay, got it.",
+            subtitle: "Would you like to attach some image/ PDF/ DOC to this Ticket?",
+            buttons: [
+              {
+                type: "postback",
+                title: "Yes",
+                payload: "yes_feedback_attachment",
+              },
+              {
+                type: "postback",
+                title: "Not required",
+                payload: "no_feedback_attachment",
               }
             ],
           }]
