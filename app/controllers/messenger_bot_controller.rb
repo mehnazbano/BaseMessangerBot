@@ -6,10 +6,6 @@ class MessengerBotController < ActionController::Base
   require 'httparty'
 
   def message(event, sender)
-    p 'for etstingngnng'
-    p params
-    p 'eventeventeventevent'
-    p event
     if params['entry'][0]['messaging'][0]['message']['attachments'].present?
       ticket = ::Ticket.where(fb_app_user_id: params['entry'][0]['messaging'][0]['sender']['id']).sort_by(&:created_at).reverse.first
       feedback = ::Feedback.where(fb_app_user_id: params['entry'][0]['messaging'][0]['sender']['id']).sort_by(&:created_at).reverse.first
@@ -227,6 +223,11 @@ class MessengerBotController < ActionController::Base
           end
         end
       when 'wit_severity'
+        ticket = ::Ticket.where(fb_app_user_id: params['entry'][0]['messaging'][0]['sender']['id'], description: nil).sort_by(&:created_at).reverse.first
+        if ticket.present?
+          ticket.severity = ticket_sev
+          ticket.save
+        end
         case params['entry'][0]['messaging'][0]['message']['nlp']['entities'].values.flatten.first['value'].downcase
         when 'severity 1', 'sev 1', 'sev1'
           'Considering your ticket highly critical, please provide detailed ticket description.'
@@ -303,10 +304,10 @@ class MessengerBotController < ActionController::Base
             image_url: 'https://facbot.herokuapp.com/profile.png',
             default_action: {
               type: 'web_url',
-              url: 'https://pbs.twimg.com/profile_images/899382591236829184/Dk48Lg7S.jpg',
+              url: 'https://facbot.herokuapp.com/profile.png',
               messenger_extensions: true,
               webview_height_ratio: 'tall',
-              fallback_url: 'https://pbs.twimg.com/profile_images/899382591236829184/Dk48Lg7S.jpg'
+              fallback_url: 'https://facbot.herokuapp.com/profile.png'
             },
             buttons: [
               {
