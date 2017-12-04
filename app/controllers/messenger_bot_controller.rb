@@ -225,7 +225,7 @@ class MessengerBotController < ActionController::Base
       when 'wit_severity'
         ticket = ::Ticket.where(fb_app_user_id: params['entry'][0]['messaging'][0]['sender']['id'], description: nil).sort_by(&:created_at).reverse.first
         if ticket.present?
-          ticket.severity = ticket_sev
+          ticket.severity = params['entry'][0]['messaging'][0]['message']['nlp']['entities'].values.flatten.first['value'].downcase
           ticket.save
         end
         case params['entry'][0]['messaging'][0]['message']['nlp']['entities'].values.flatten.first['value'].downcase
